@@ -10,7 +10,7 @@ import json
 import subprocess
 import pickle
 import xml.etree.ElementTree as ET
-import re
+import sys
 from datetime import datetime, timedelta
 import random
 import string
@@ -144,8 +144,8 @@ def debug_info():
     # Exposing sensitive debug information
     debug_info = {
         'app_config': str(app.config),
-        'environment': os.environ,
-        'python_version': sys.version,
+        'environment': dict(os.environ),
+        'python_version': sys.version_info,
         'db_uri': app.config['SQLALCHEMY_DATABASE_URI']
     }
     return jsonify(debug_info)
