@@ -1,0 +1,8 @@
+services:
+  vuln-flask:
+    image: vulnerable-flask-application
+    container_name: vuln-flask
+    build: .
+    ports:
+      - 8082:8082
+
