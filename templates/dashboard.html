@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - Vulnerable Flask App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('create_post') }}">Create Post</a></li>
+                <li><a href="#" onclick="document.getElementById('logout-form').submit();">Logout</a></li>
+                <form id="logout-form" action="{{ url_for('logout') }}" method="post" style="display: none;"></form>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Welcome, {{ user.username }}</h2>
+        
+        <section>
+            <h3>Your Profile</h3>
+            <p>Email: {{ user.email }}</p>
+            <p>API Key: {{ user.api_key }}</p>
+            
+            <h4>Change Email</h4>
+            <form method="post" action="{{ url_for('change_email') }}">
+                <div>
+                    <label for="email">New Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div>
+                    <button type="submit">Update Email</button>
+                </div>
+            </form>
+        </section>
+        
+        <section>
+            <h3>Your Posts</h3>
+            {% if posts %}
+                {% for post in posts %}
+                    <article>
+                        <h4>{{ post.title }}</h4>
+                        <p>{{ post.content | truncate(100) }}</p>
+                        <p>Visibility: {{ 'Public' if post.is_public else 'Private' }}</p>
+                        <a href="{{ url_for('view_post', post_id=post.id) }}">View</a>
+                    </article>
+                {% endfor %}
+            {% else %}
+                <p>You haven't created any posts yet.</p>
+            {% endif %}
+        </section>
+        
+        <section>
+            <h3>Import Data</h3>
+            <form method="post" action="{{ url_for('import_data') }}" enctype="multipart/form-data">
+                <div>
+                    <label for="file">File (.pickle or .xml):</label>
+                    <input type="file" id="file" name="file" required>
+                </div>
+                <div>
+                    <button type="submit">Import</button>
+                </div>
+            </form>
+        </section>
+        
+        <section>
+            <h3>Ping Server</h3>
+            <form method="post" action="{{ url_for('ping_server') }}">
+                <div>
+                    <label for="hostname">Hostname:</label>
+                    <input type="text" id="hostname" name="hostname" placeholder="example.com" required>
+                </div>
+                <div>
+                    <button type="submit">Ping</button>
+                </div>
+            </form>
+        </section>
+        
+        <section>
+            <h3>Fetch URL</h3>
+            <form method="post" action="{{ url_for('fetch_url') }}">
+                <div>
+                    <label for="url">URL:</label>
+                    <input type="text" id="url" name="url" placeholder="https://example.com" required>
+                </div>
+                <div>
+                    <button type="submit">Fetch</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>WARNING: This application contains intentional security vulnerabilities for educational purposes only.</p>
+    </footer>
+</body>
+</html>

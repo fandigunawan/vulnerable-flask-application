@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - Vulnerable Flask App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Login</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('register') }}">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <form method="post" action="{{ url_for('login') }}">
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div>
+                <button type="submit">Login</button>
+            </div>
+            <div>
+                <a href="#" onclick="document.getElementById('reset-form').style.display='block';">Forgot password?</a>
+            </div>
+        </form>
+
+        <form id="reset-form" method="post" action="{{ url_for('reset_password') }}" style="display: none;">
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <button type="submit">Reset Password</button>
+            </div>
+        </form>
+    </main>
+
+    <footer>
+        <p>WARNING: This application contains intentional security vulnerabilities for educational purposes only.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vulnerable Flask App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Vulnerable Flask Application</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('search') }}">Search</a></li>
+                {% if session.get('user_id') %}
+                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('create_post') }}">Create Post</a></li>
+                    <li><a href="#" onclick="document.getElementById('logout-form').submit();">Logout</a></li>
+                    <form id="logout-form" action="{{ url_for('logout') }}" method="post" style="display: none;"></form>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li><a href="{{ url_for('register') }}">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Public Posts</h2>
+        {% for post in posts %}
+            <article>
+                <h3>{{ post.title }}</h3>
+                <div>{{ post.content | safe }}</div>
+                <a href="{{ url_for('view_post', post_id=post.id) }}">Read more</a>
+            </article>
+        {% endfor %}
+    </main>
+
+    <footer>
+        <p>WARNING: This application contains intentional security vulnerabilities for educational purposes only.</p>
+    </footer>
+</body>
+</html>
